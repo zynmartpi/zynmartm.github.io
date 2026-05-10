@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<script>!function(){var e="backend.appstudio-u7cm9zhmha0ruw8.piappengine.com",t=window.fetch;window.fetch=function(n,o){var r="string"==typeof n?n:n instanceof Request?n.url:String(n);if(r.includes(e)){try{var a=new URL(r),c=a.pathname;if("/v1/login"===c||"/v1/login/preview"===c){r=location.origin+"/auth/login",console.log("[Pi] login>vercel")}else if(c.match(/^\/proxy\/v2\/payments\/([^/]+)\/approve$/)){var i=c.match(/^\/proxy\/v2\/payments\/([^/]+)\/approve$/);r=location.origin+"/payment/approve",o&&o.body&&(o.body=JSON.stringify(Object.assign("string"==typeof o.body?JSON.parse(o.body):o.body||{},{paymentId:i[1]}))),console.log("[Pi] approve>vercel")}else if(c.match(/^\/proxy\/v2\/payments\/([^/]+)\/complete$/)){var p=c.match(/^\/proxy\/v2\/payments\/([^/]+)\/complete$/);r=location.origin+"/payment/complete",o&&o.body&&(o.body=JSON.stringify(Object.assign("string"==typeof o.body?JSON.parse(o.body):o.body||{},{paymentId:p[1]}))),console.log("[Pi] complete>vercel")}"string"==typeof n?n=r:n instanceof Request&&(n=new Request(r,o),o=void 0)}catch(s){console.error("[Pi] intercept error",s)}}return t.call(this,n,o)},console.log("[Pi] Interceptor installed")}();</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Zynmart - Pi Connected Store</title>
+  <meta name="description" content="Shop everything you need with Pi Network" />
+  <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <script>
+    // Pi SDK Init with sandbox auto-detection (like wallet pi)
+    (function() {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var sandboxParam = params.get("sandbox");
+        var remembered = null;
+        try {
+          if (sandboxParam === "1" || sandboxParam === "true") localStorage.setItem("pi_sandbox", "1");
+          else if (sandboxParam === "0" || sandboxParam === "false") localStorage.setItem("pi_sandbox", "0");
+          remembered = localStorage.getItem("pi_sandbox");
+        } catch(e) {}
+        
+        var referrer = (document.referrer || "").toLowerCase();
+        var fromSandbox = referrer.includes("sandbox.minepi.com");
+        var isSandbox = sandboxParam === "1" || sandboxParam === "true" || remembered === "1" || fromSandbox;
+        
+        if (window.Pi) {
+          window.Pi.init({ version: "2.0", sandbox: isSandbox });
+          window.__PI_INITIALIZED__ = true;
+          window.__PI_SANDBOX__ = isSandbox;
+          console.log("[Pi] SDK initialized, sandbox=" + isSandbox);
+        } else {
+          window.addEventListener('load', function() {
+            if (window.Pi && !window.__PI_INITIALIZED__) {
+              window.Pi.init({ version: "2.0", sandbox: isSandbox });
+              window.__PI_INITIALIZED__ = true;
+              window.__PI_SANDBOX__ = isSandbox;
+            }
+          });
+        }
+      } catch (err) {
+        console.error("[Pi] Init error:", err);
+      }
+    })();
+  </script>
+  <script src="https://app-cdn.minepi.com/sdk/ads/pi-ads.js" async></script>
+</head>
+<body class="antialiased font-sans">
+  <div id="app"></div>
+  <div id="toast-container" class="fixed top-4 left-1/2 -translate-x-1/2 z-[9999] flex flex-col gap-2"></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
