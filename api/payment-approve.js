@@ -55,20 +55,40 @@ function piRequest(method, apiPath, bodyObj) {
 }
 
 export default async function handler(req, res) {
+  // CORS
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   console.log('--- Payment Approve Start ---');
   console.log('Method:', req.method);
-  console.log('Body:', req.body);
   
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
-    const paymentId = req.body?.paymentId ? String(req.body.paymentId) : "";
+    // Vercel automatically parses the body if Content-Type is application/json
+    let body = req.body;
+    if (typeof body === 'string' && body.length > 0) {
+      try {
+        body = JSON.parse(body);
+      } catch (e) {
+        console.error("Failed to parse body string:", e);
+      }
+    }
+
+    console.log('Parsed Body:', body);
+    
+    const paymentId = body?.paymentId ? String(body.paymentId) : "";
     console.log('PaymentId:', paymentId);
 
     if (!paymentId) {
-      console.error('Error: paymentId is missing');
+      console.error('Error: paymentId is missing from body');
       return res.status(400).json({ error: "paymentId is required" });
     }
 

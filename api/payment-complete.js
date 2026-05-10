@@ -55,13 +55,32 @@ function piRequest(method, apiPath, bodyObj) {
 }
 
 export default async function handler(req, res) {
+  // CORS
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
-    const paymentId = req.body?.paymentId ? String(req.body.paymentId) : "";
-    const txid = req.body?.txid ? String(req.body.txid) : "";
+    // Vercel automatically parses the body if Content-Type is application/json
+    let body = req.body;
+    if (typeof body === 'string') {
+      try {
+        body = JSON.parse(body);
+      } catch (e) {
+        console.error("Failed to parse body string:", e);
+      }
+    }
+    
+    const paymentId = body?.paymentId ? String(body.paymentId) : "";
+    const txid = body?.txid ? String(body.txid) : "";
 
     if (!paymentId) {
       return res.status(400).json({ error: "paymentId is required" });
