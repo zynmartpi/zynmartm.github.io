@@ -55,25 +55,38 @@ function piRequest(method, apiPath, bodyObj) {
 }
 
 export default async function handler(req, res) {
+  console.log('--- Payment Approve Start ---');
+  console.log('Method:', req.method);
+  console.log('Body:', req.body);
+  
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
     const paymentId = req.body?.paymentId ? String(req.body.paymentId) : "";
+    console.log('PaymentId:', paymentId);
 
     if (!paymentId) {
+      console.error('Error: paymentId is missing');
       return res.status(400).json({ error: "paymentId is required" });
     }
+
+    const apiKey = getApiKey();
+    console.log('API Key Status:', apiKey ? 'Present' : 'Missing');
 
     const result = await piRequest(
       "POST",
       `/payments/${encodeURIComponent(paymentId)}/approve`,
       null
     );
-
+    
+    console.log('Pi API Success:', result);
     return res.status(200).json(result);
   } catch (err) {
+    console.error('Pi API Error:', err.message);
+    if (err.response) console.error('Pi API Response:', err.response);
+    
     return res.status(502).json({
       error: "Pi API approve failed",
       message: err?.message || "Unknown error",
