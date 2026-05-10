@@ -1,4 +1,4 @@
-const https = require("https");
+import https from "https";
 
 const PI_API_BASE = process.env.PI_API_BASE || "https://api.minepi.com/v2";
 
