@@ -111,7 +111,7 @@ export function renderHomePage() {
                   <div class="relative z-10 space-y-2 max-w-[60%] text-start">
                     <span class="text-[10px] font-black uppercase tracking-[0.2em] text-white/70">${banner.subtitle}</span>
                     <h2 class="text-2xl font-black text-white leading-tight">${banner.title}</h2>
-                    <button class="mt-2 bg-white text-gray-900 px-5 py-2 rounded-xl font-black text-xs active:scale-95 transition-all shadow-sm">${t("shop_now")}</button>
+                    <button class="mt-2 bg-white text-gray-900 px-5 py-2 rounded-xl font-black text-xs btn-press shadow-sm">${t("shop_now")}</button>
                   </div>
                   <div class="absolute right-0 top-0 bottom-0 w-1/2 overflow-hidden">
                     <img src="${banner.image}" alt="${banner.title}" class="object-cover opacity-80 w-full h-full" />
@@ -153,7 +153,7 @@ export function renderHomePage() {
                         <div class="flex flex-col">
                           <span class="text-primary font-black">${product.piPrice.toFixed(3)} Pi</span>
                         </div>
-                        <button class="btn-add-cart p-2 bg-primary/10 text-primary rounded-xl hover:bg-primary hover:text-white active:scale-90 transition-all shadow-sm" data-product-id="${product.id}">
+                        <button class="btn-add-cart p-2 bg-primary/10 text-primary rounded-xl hover:bg-primary hover:text-white btn-press shadow-sm" data-product-id="${product.id}">
                           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
                         </button>
                       </div>

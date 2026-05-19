@@ -39,14 +39,14 @@ export function renderSellerDashboardPage() {
       <main class="container mx-auto px-4 py-6 space-y-6">
         <!-- Quick Actions -->
         <div class="grid grid-cols-2 gap-3">
-          <button id="btn-add-product" class="flex items-center gap-3 bg-primary text-white p-4 rounded-2xl shadow-lg shadow-primary/20 active:scale-95 transition-all">
+          <button id="btn-add-product" class="flex items-center gap-3 bg-primary text-white p-4 rounded-2xl shadow-lg shadow-primary/20 btn-press">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             <div class="text-start">
               <p class="text-sm font-black">${t("add_product") || "Add Product"}</p>
               <p class="text-[10px] text-white/70">${t("add_your_first_product") || "New product"}</p>
             </div>
           </button>
-          <button id="btn-manage-orders" class="flex items-center gap-3 bg-gray-900 text-white p-4 rounded-2xl shadow-lg shadow-gray-900/20 active:scale-95 transition-all">
+          <button id="btn-manage-orders" class="flex items-center gap-3 bg-gray-900 text-white p-4 rounded-2xl shadow-lg shadow-gray-900/20 btn-press">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
             <div class="text-start">
               <p class="text-sm font-black">${t("manage_orders") || "Orders"}</p>
@@ -129,18 +129,21 @@ export function renderSellerDashboardPage() {
               </div>
               <p class="text-sm font-bold text-gray-500">${t("no_products_yet") || "No products yet"}</p>
               <p class="text-xs text-gray-400">${t("start_adding_products") || "Start adding products"}</p>
-              <button id="btn-add-first" class="bg-primary text-white px-6 py-2.5 rounded-xl font-bold text-sm">${t("add_your_first_product") || "Add First Product"}</button>
+              <button id="btn-add-first" class="bg-primary text-white px-6 py-2.5 rounded-xl font-bold text-sm btn-press">${t("add_your_first_product") || "Add First Product"}</button>
             </div>
           ` : `
             <div class="divide-y divide-gray-50">
               ${sellerProducts.slice(0, 5).map(p => `
-                <div class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors">
-                  <img src="${p.image}" class="w-12 h-12 rounded-xl object-cover bg-gray-50" onerror="this.src='https://placehold.co/200x200?text=N/A'"/>
+                <div class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors card-hover">
+                  <div class="skeleton-image-wrapper w-12 h-12 rounded-xl overflow-hidden flex-shrink-0">
+                    <div class="skeleton-placeholder absolute inset-0"></div>
+                    <img src="${p.image}" class="w-full h-full object-cover bg-gray-50 relative z-10" onerror="this.src='https://placehold.co/200x200?text=N/A'" loading="lazy"/>
+                  </div>
                   <div class="flex-1 min-w-0">
                     <p class="text-sm font-bold text-gray-900 truncate">${p.name}</p>
                     <p class="text-xs text-gray-400">${p.piPrice.toFixed(3)} Pi · ${p.stock || 0} ${t("stock") || "stock"}</p>
                   </div>
-                  <button class="edit-product-btn p-2 text-primary bg-primary/5 rounded-xl hover:bg-primary hover:text-white transition-all" data-id="${p.id}">
+                  <button class="edit-product-btn p-2 text-primary bg-primary/5 rounded-xl hover:bg-primary hover:text-white transition-all btn-press" data-id="${p.id}">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                   </button>
                 </div>

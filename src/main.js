@@ -4,6 +4,7 @@ import { initNotifications } from "./stores/notifications-store.js";
 import { addRoute, startRouter, navigate } from "./components/router.js";
 import { renderHeader } from "./components/header.js";
 import { reinitialize } from "./stores/pi-auth-store.js";
+import { errorBoundary } from "./components/error-boundary.js";
 import { renderHomePage } from "./pages/home.js";
 import { renderProductPage } from "./pages/product.js";
 import { renderCartPage } from "./pages/cart.js";
@@ -118,6 +119,14 @@ function enableDevMode() {
 
 // Main initialization
 async function init() {
+  // Global error handlers
+  window.addEventListener("error", (e) => {
+    console.error("[Global] Uncaught error:", e.error || e.message);
+  });
+  window.addEventListener("unhandledrejection", (e) => {
+    console.error("[Global] Unhandled rejection:", e.reason);
+  });
+
   // Show loading while auth initializes
   renderAuthLoading();
 

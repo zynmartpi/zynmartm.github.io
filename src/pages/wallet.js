@@ -168,7 +168,7 @@ export function renderWalletPage() {
 function renderDepositModal() {
   const s = walletState;
   return `
-    <div id="deposit-overlay" class="fixed inset-0 bg-black/50 z-50 flex items-end justify-center" onclick="if(event.target===this){document.getElementById('deposit-overlay').remove();walletState.isDepositOpen=false;}">
+    <div id="deposit-overlay" class="fixed inset-0 bg-black/50 dialog-backdrop z-50 flex items-end justify-center" onclick="if(event.target===this){document.getElementById('deposit-overlay').remove();walletState.isDepositOpen=false;}">
       <div class="bg-white w-full max-w-md rounded-t-3xl p-6 space-y-6 animate-slide-up max-h-[90vh] overflow-y-auto">
         <div class="text-center">
           <div class="p-4 bg-primary/10 rounded-3xl mb-2 relative inline-block">
