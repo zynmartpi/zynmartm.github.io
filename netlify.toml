@@ -1,0 +1,35 @@
+[build]
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/payment/approve"
+  to = "/.netlify/functions/payment-approve"
+  status = 200
+
+[[redirects]]
+  from = "/payment/complete"
+  to = "/.netlify/functions/payment-complete"
+  status = 200
+
+[[redirects]]
+  from = "/payment/cancel"
+  to = "/.netlify/functions/payment-cancel"
+  status = 200
+
+[[redirects]]
+  from = "/auth/login"
+  to = "/.netlify/functions/auth-login"
+  status = 200
+
+[[redirects]]
+  from = "/auth/verify"
+  to = "/.netlify/functions/auth-verify"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
